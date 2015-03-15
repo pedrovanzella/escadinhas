@@ -1,0 +1,180 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{sbc-template}
+
+\usepackage[brazil]{babel}
+
+\sloppy
+
+\title{Números Escadinha}
+
+\author{Pedro Vanzella\inst{1}}
+
+\address{Faculdade de Informática -- Pontifícia Universidade Católica do Rio
+Grande do Sul (PUCRS) \\ Av. Ipiranga, 6681 - Porto Alegre / RS / Brasil
+    \email pedro@pedrovanzella.com}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language brazilian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+A solution for the problem of finding the number of Stairway Numbers in
+ a arbitrary base-n is proposed.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{resumo}
+\end_layout
+
+\begin_layout Plain Layout
+
+Propõe-se uma solução para o problema de se encontrar a quantidade de Números
+ Escadinha em uma base arbitrária n.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{resumo}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introdução
+\end_layout
+
+\begin_layout Standard
+São chamados Números Escadinha aqueles que seguem um conjunto simples de
+ regras:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+1.
+ Não começam com o dígito zero
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+2.
+ Não possuem dígitos repetidos
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+3.
+ Entre um dígito e o seguinte, a diferença em módulo não é superior a 2.
+\end_layout
+
+\begin_layout Standard
+O problema a ser resolvido neste artigo é o de se encontrar quantos Números
+ Escadinha existem em uma dada base.
+ Fica evidente que eles são finitos, devido à Regra 2 - o número de dígitos
+ é limitado ao tamanho da base, senão dígitos começariam a se repetir.
+\end_layout
+
+\begin_layout Section
+Primeira Tentativa
+\end_layout
+
+\begin_layout Standard
+Uma tentativa inicial foi feita, tentando o algorítmo mais óbvio e ingênuo.
+\end_layout
+
+\end_body
+\end_document
