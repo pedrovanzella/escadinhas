@@ -1,4 +1,5 @@
 #!/usr/local/bin/python
+import sys
 
 
 def escadinha(base):
