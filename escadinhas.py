@@ -2,6 +2,7 @@
 
 import sys
 
+
 def incrementa(num, base):
     max = True
     for p in num:
@@ -28,6 +29,7 @@ def incrementa(num, base):
                 num[i] = 0
     return num
 
+
 def baseN_to_base_10(num, base):
     final = 0
 
@@ -37,26 +39,29 @@ def baseN_to_base_10(num, base):
 
     return final
 
+
 def unique(num):
     for idx, val in enumerate(num):
         for nidx, nval in enumerate(num):
             if val == nval:
                 if idx == nidx:
                     continue
-                #print "INVALIDO (unique) %s" % num
+                # print "INVALIDO (unique) %s" % num
                 return False
     return True
+
 
 def valido(num, base):
     for idx, val in enumerate(num):
         if val >= base:
-            #print "INVALIDO (base) %s" % num
+            # print "INVALIDO (base) %s" % num
             return False
         if abs(val - num[idx - 1]) > 2:
-            #print "INVALIDO (modulus 2) %s" % num
+            # print "INVALIDO (modulus 2) %s" % num
             return False
 
         return unique(num)
+
 
 def escadinha(base):
     count = 0
@@ -67,10 +72,10 @@ def escadinha(base):
 
     while num != maxnum:
         num = incrementa(num, base)
-        #print "TESTANDO %d", num
+        # print "TESTANDO %d", num
         if valido(num, base):
             count += 1
-            #print "VALIDO %s" % num
+            # print "VALIDO %s" % num
 
     return count
 
