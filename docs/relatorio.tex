@@ -190,4 +190,25 @@ números cujos dígitos são únicos entre si.
 
 De fato, vemos que o algoritmo escadinha, considerando tudo, tem uma
 complexidade O($base^{3}$)
+
+\subsection{Resultados}
+Obviamente o algoritmo é ruim. Mas quão ruim? Seria possível resolver o problema para uma entrada razoavel? A fim de curiosidade, o algoritmo foi implementado e os resultados foram os seguintes:
+
+\begin{table}[h]
+\caption{Base vs Tempo (s)}
+\label{my-label}
+\begin{tabular}{ll}
+2 & 0.01 \\
+3 & 0.01 \\
+4 & 0.01 \\
+5 & 0.02 \\
+6 & 0.09 \\
+7 & 1.25 \\
+8 & 23.9 \\
+9 & ???    
+\end{tabular}
+\end{table}
+
+Para entradas menores a 4, a diferença de tempo de execução é imperceptível. Para entradas até 7, vemos um crescimento grande do tempo de execução, mas ainda nada terrível. Para 8, a diferença de tempo já é gritante. Esta diferença só aumenta, de maneira assustadora, a cada execução com base mais alta. Fica claro que para base-11 será impossível executar o algorítmo em tempo hábil.
+
 \end{document}
