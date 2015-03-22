@@ -1,4 +1,4 @@
-\documentclass[brazil]{article}
+\documentclass[12pt]{article}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
 \usepackage{algorithm2e}
@@ -83,36 +83,35 @@ resto do algoritmo, que se dá em relação à base.
 \begin{lstlisting}
 incrementa(num, base):
 	max = True
-	para p em num: # Verifica se todos os dígitos são o máximo da base
+	para p em num: 
 		se p != base - 1:
 			max = False
 			break
 
-	se max: # se for (e.g. 99 para base 10)
-		num[0] = 1 # o primeiro dígito é 1
-		para i de 1 a len(num): # os dígitos restantes são 0
+	se max:
+		num[0] = 1 
+		para i de 1 a len(num):
 			num[i] = 0
-		num.append(0) # e mais um dígito zero
+		num.append(0)
 		return num
 
-	se num[-1] < base - 1: # Se não vai haver overflow
-		num[-1]++ # simplesmente incrementa o último dígito
+	se num[-1] < base - 1:
+		num[-1]++
 	senão:
 		num[-1] = 0
-		para i de len(num) - 2 até 0: # em ordem reversa
-			se num[i] < base - 1: # não haverá overflow
+		para i de len(num) - 2 até 0:
+			se num[i] < base - 1: 
 				num[i]++
-				break # podemos parar por aqui
+				break
 			senão:
-				num[i] = 0 # overflow e continua para trás
+				num[i] = 0
 
 	return num
 \end{lstlisting}
 
 
 O código acima mostra o algoritmo de incremento de um número, contando
-com os casos de borda onde haverá overflow de um dígito. Os comentários
-(marcados por \#) explicam ele.
+com os casos de borda onde haverá overflow de um dígito. 
 
 O algoritmo de procura por números válidos é o mais ingênuo possível:
 itera por todos os números possíveis na base e, um por um, verifica
@@ -121,10 +120,10 @@ se ele se adequa às regras.
 \begin{lstlisting}
 escadinha(base):
 	count = 0
-	num = [0] # array contendo um elemento zero
+	num = [0] 
 	
-	enquanto num != maxnum: # maxnum é o maior número da base
-		num = incrementa(num, base) # ignoramos zero, porque não seria válido mesmo
+	enquanto num != maxnum: 
+		num = incrementa(num, base) 
 		se valido(num):
 			count++
 
@@ -141,7 +140,7 @@ o número 543210.
 
 \begin{lstlisting}
 maxnum(base):
-	num = [] # array vazio
+	num = [] 
 	para i de 0 a base:
 		num.append(base - 1 - i)
 
@@ -158,10 +157,10 @@ de performance deste algorítmo.
 \begin{lstlisting}
 valido(num):
 	para i de 0 a len(num):
-		se abs(num[i] - num[i - 1]) > 2: # Regra 3
+		se abs(num[i] - num[i - 1]) > 2: 
 			return False
 
-	return unique(num) # vamos ver este na seqüência
+	return unique(num) 
 \end{lstlisting}
 
 
@@ -175,14 +174,14 @@ unique(num):
 	para i de 0 a len(num):
 		para j de 0 a len(num):
 			se i == j:
-				continue # não compara o dígito com ele mesmo
+				continue 
 			se num[i] == num[j]:
-				return False # se há dois dígitos iguais, retorna Falso
-	return True # somente retorna true se verificou todo mundo contra todo mundo
+				return False 
+	return True 
 \end{lstlisting}
 
 
-Claramente, este algoritmo roda em O($len(num)$$^{2}$), pois para
+Claramente, este algoritmo roda em O($len(num)^{2}$), pois para
 cada dígito de num, é necessário verificar sua igualdade contra todos
 os demais dígitos. Este é um candidato óbvio para otimização. Seria
 ideal se, em uma tentativa futura, pudéssemos eliminar completamente
@@ -190,5 +189,5 @@ a chamada a este método, tendo a confiança de que só iremos visitar
 números cujos dígitos são únicos entre si.
 
 De fato, vemos que o algoritmo escadinha, considerando tudo, tem uma
-complexidade O(base$^{3}$)
+complexidade O($base^{3}$)
 \end{document}

@@ -2,7 +2,7 @@
  "relatorio"
  (lambda ()
    (TeX-add-to-alist 'LaTeX-provided-class-options
-                     '(("article" "brazil")))
+                     '(("article" "12pt")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
                      '(("fontenc" "T1") ("inputenc" "latin9") ("babel" "brazil")))
    (add-to-list 'LaTeX-verbatim-environments-local "lstlisting")
@@ -11,7 +11,7 @@
    (TeX-run-style-hooks
     "latex2e"
     "article"
-    "art10"
+    "art12"
     "fontenc"
     "inputenc"
     "algorithm2e"
