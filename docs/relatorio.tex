@@ -1,0 +1,194 @@
+\documentclass[brazil]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{algorithm2e}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+ \setlength{\leftmargin}{\labelwidth}
+ \addtolength{\leftmargin}{\labelsep}
+ \renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{sbc-template}
+
+\usepackage[brazil]{babel}
+
+\sloppy
+
+\title{Números Escadinha}
+
+\author{Pedro Vanzella\inst{1}}
+
+\address{Faculdade de Informática -- Pontifícia Universidade Católica do Rio
+Grande do Sul (PUCRS) \\ Av. Ipiranga, 6681 - Porto Alegre / RS / Brasil
+    \email pedro@pedrovanzella.com}
+
+\makeatother
+
+\usepackage{babel}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Listagem}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+A solution for the problem of finding the number of Stairway Numbers
+in a arbitrary base-n is proposed.
+\end{abstract}
+\begin{resumo}
+Propõe-se uma solução para o problema de se encontrar a quantidade de Números Escadinha em uma base arbitrária n.
+\end{resumo}
+
+
+\section{Introdução}
+
+São chamados Números Escadinha aqueles que seguem um conjunto simples
+de regras:
+\begin{lyxlist}{00.00.0000}
+\item [{1.}] Não começam com o dígito zero
+\item [{2.}] Não possuem dígitos repetidos
+\item [{3.}] Entre um dígito e o seguinte, a diferença em módulo não é
+superior a 2.
+\end{lyxlist}
+O problema a ser resolvido neste artigo é o de se encontrar quantos
+Números Escadinha existem em uma dada base. Fica evidente que eles
+são finitos, devido à Regra 2 - o número de dígitos é limitado ao
+tamanho da base, senão dígitos começariam a se repetir.
+
+
+\section{Primeira Tentativa}
+
+Uma tentativa inicial foi feita, tentando o algorítmo mais óbvio e
+ingênuo.
+
+Para evitar conversões de base, foi usado um array de inteiros, onde
+cada elemento do array representa um dígito do número. O problema
+desta parte da solução é que incrementar um dígito roda, na pior das
+hipóteses, em tempo linear, oposto a incrementar um inteiro simples,
+que deve rodar em tempo constante. Isto é, para cada número a se incrementar,
+é necessário verificar o overflow no último dígito. Caso isto ocorra,
+faz-se necessário verificar por overflow em cada dígito anterior,
+até que não haja mais dígitos em overflow, ou que se tenha chegado
+ao começo do array. Este algoritmo foi utilizado em soluções posteriores
+pela sua praticidade. Além disso, o seu custo cresce linearmente com
+a quantidade de dígitos do número, o que é um custo pequeno, como
+veremos posteriormente, se comparado ao crescimento muito maior do
+resto do algoritmo, que se dá em relação à base.
+
+\begin{lstlisting}
+incrementa(num, base):
+	max = True
+	para p em num: # Verifica se todos os dígitos são o máximo da base
+		se p != base - 1:
+			max = False
+			break
+
+	se max: # se for (e.g. 99 para base 10)
+		num[0] = 1 # o primeiro dígito é 1
+		para i de 1 a len(num): # os dígitos restantes são 0
+			num[i] = 0
+		num.append(0) # e mais um dígito zero
+		return num
+
+	se num[-1] < base - 1: # Se não vai haver overflow
+		num[-1]++ # simplesmente incrementa o último dígito
+	senão:
+		num[-1] = 0
+		para i de len(num) - 2 até 0: # em ordem reversa
+			se num[i] < base - 1: # não haverá overflow
+				num[i]++
+				break # podemos parar por aqui
+			senão:
+				num[i] = 0 # overflow e continua para trás
+
+	return num
+\end{lstlisting}
+
+
+O código acima mostra o algoritmo de incremento de um número, contando
+com os casos de borda onde haverá overflow de um dígito. Os comentários
+(marcados por \#) explicam ele.
+
+O algoritmo de procura por números válidos é o mais ingênuo possível:
+itera por todos os números possíveis na base e, um por um, verifica
+se ele se adequa às regras.
+
+\begin{lstlisting}
+escadinha(base):
+	count = 0
+	num = [0] # array contendo um elemento zero
+	
+	enquanto num != maxnum: # maxnum é o maior número da base
+		num = incrementa(num, base) # ignoramos zero, porque não seria válido mesmo
+		se valido(num):
+			count++
+
+	return count
+\end{lstlisting}
+
+
+No algorítmo acima, vemos um \textquotedbl{}maxnum\textquotedbl{}.
+Ele pode ser facilmente computado gerando um array de base-posições
+com base-1 em cada posição. Uma otimização óbvia ainda seria gerar
+um array sem números repetidos, de maneira decrescente, já que este
+seria o último número válido em uma base. Por exemplo, para base-6,
+o número 543210.
+
+\begin{lstlisting}
+maxnum(base):
+	num = [] # array vazio
+	para i de 0 a base:
+		num.append(base - 1 - i)
+
+	return num
+\end{lstlisting}
+
+
+Aqui vemos o algoritmo já com a otimização supracitada.
+
+Ainda no algoritmo escadinha, vemos uma chamada para valido(num, base).
+Vamos analizar esta chamada, pois nela se encontra o maior problema
+de performance deste algorítmo.
+
+\begin{lstlisting}
+valido(num):
+	para i de 0 a len(num):
+		se abs(num[i] - num[i - 1]) > 2: # Regra 3
+			return False
+
+	return unique(num) # vamos ver este na seqüência
+\end{lstlisting}
+
+
+Ignorando unique(num), vemos que este algoritmo roda em tempo linear
+em relação à quantidade de dígitos de num. O problema mesmo, como
+veremos, está na verificação de unicidade dos dígitos de um número.
+Vejamos o algoritmo que faz isto:
+
+\begin{lstlisting}
+unique(num):
+	para i de 0 a len(num):
+		para j de 0 a len(num):
+			se i == j:
+				continue # não compara o dígito com ele mesmo
+			se num[i] == num[j]:
+				return False # se há dois dígitos iguais, retorna Falso
+	return True # somente retorna true se verificou todo mundo contra todo mundo
+\end{lstlisting}
+
+
+Claramente, este algoritmo roda em O($len(num)$$^{2}$), pois para
+cada dígito de num, é necessário verificar sua igualdade contra todos
+os demais dígitos. Este é um candidato óbvio para otimização. Seria
+ideal se, em uma tentativa futura, pudéssemos eliminar completamente
+a chamada a este método, tendo a confiança de que só iremos visitar
+números cujos dígitos são únicos entre si.
+
+De fato, vemos que o algoritmo escadinha, considerando tudo, tem uma
+complexidade O(base$^{3}$)
+\end{document}

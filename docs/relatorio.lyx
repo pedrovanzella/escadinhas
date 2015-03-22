@@ -19,6 +19,9 @@ Grande do Sul (PUCRS) \\ Av. Ipiranga, 6681 - Porto Alegre / RS / Brasil
     \email pedro@pedrovanzella.com}
 \end_preamble
 \use_default_options true
+\begin_modules
+algorithm2e
+\end_modules
 \maintain_unincluded_children false
 \language brazilian
 \language_package default
