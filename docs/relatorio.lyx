@@ -176,5 +176,416 @@ Primeira Tentativa
 Uma tentativa inicial foi feita, tentando o algorítmo mais óbvio e ingênuo.
 \end_layout
 
+\begin_layout Standard
+Para evitar conversões de base, foi usado um array de inteiros, onde cada
+ elemento do array representa um dígito do número.
+ O problema desta parte da solução é que incrementar um dígito roda, na
+ pior das hipóteses, em tempo linear, oposto a incrementar um inteiro simples,
+ que deve rodar em tempo constante.
+ Isto é, para cada número a se incrementar, é necessário verificar o overflow
+ no último dígito.
+ Caso isto ocorra, faz-se necessário verificar por overflow em cada dígito
+ anterior, até que não haja mais dígitos em overflow, ou que se tenha chegado
+ ao começo do array.
+ Este algoritmo foi utilizado em soluções posteriores pela sua praticidade.
+ Além disso, o seu custo cresce linearmente com a quantidade de dígitos
+ do número, o que é um custo pequeno, como veremos posteriormente, se comparado
+ ao crescimento muito maior do resto do algoritmo, que se dá em relação
+ à base.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+incrementa(num, base):
+\end_layout
+
+\begin_layout Plain Layout
+
+	max = True
+\end_layout
+
+\begin_layout Plain Layout
+
+	para p em num: # Verifica se todos os dígitos são o máximo da base
+\end_layout
+
+\begin_layout Plain Layout
+
+		se p != base - 1:
+\end_layout
+
+\begin_layout Plain Layout
+
+			max = False
+\end_layout
+
+\begin_layout Plain Layout
+
+			break
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	se max: # se for (e.g.
+ 99 para base 10)
+\end_layout
+
+\begin_layout Plain Layout
+
+		num[0] = 1 # o primeiro dígito é 1
+\end_layout
+
+\begin_layout Plain Layout
+
+		para i de 1 a len(num): # os dígitos restantes são 0
+\end_layout
+
+\begin_layout Plain Layout
+
+			num[i] = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+		num.append(0) # e mais um dígito zero
+\end_layout
+
+\begin_layout Plain Layout
+
+		return num
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	se num[-1] < base - 1: # Se não vai haver overflow
+\end_layout
+
+\begin_layout Plain Layout
+
+		num[-1]++ # simplesmente incrementa o último dígito
+\end_layout
+
+\begin_layout Plain Layout
+
+	senão:
+\end_layout
+
+\begin_layout Plain Layout
+
+		num[-1] = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+		para i de len(num) - 2 até 0: # em ordem reversa
+\end_layout
+
+\begin_layout Plain Layout
+
+			se num[i] < base - 1: # não haverá overflow
+\end_layout
+
+\begin_layout Plain Layout
+
+				num[i]++
+\end_layout
+
+\begin_layout Plain Layout
+
+				break # podemos parar por aqui
+\end_layout
+
+\begin_layout Plain Layout
+
+			senão:
+\end_layout
+
+\begin_layout Plain Layout
+
+				num[i] = 0 # overflow e continua para trás
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	return num
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+O código acima mostra o algoritmo de incremento de um número, contando com
+ os casos de borda onde haverá overflow de um dígito.
+ Os comentários (marcados por #) explicam ele.
+\end_layout
+
+\begin_layout Standard
+O algoritmo de procura por números válidos é o mais ingênuo possível: itera
+ por todos os números possíveis na base e, um por um, verifica se ele se
+ adequa às regras.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+escadinha(base):
+\end_layout
+
+\begin_layout Plain Layout
+
+	count = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+	num = [0] # array contendo um elemento zero
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	enquanto num != maxnum: # maxnum é o maior número da base
+\end_layout
+
+\begin_layout Plain Layout
+
+		num = incrementa(num, base) # ignoramos zero, porque não seria válido
+ mesmo
+\end_layout
+
+\begin_layout Plain Layout
+
+		se valido(num):
+\end_layout
+
+\begin_layout Plain Layout
+
+			count++
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	return count
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+No algorítmo acima, vemos um "maxnum".
+ Ele pode ser facilmente computado gerando um array de base-posições com
+ base-1 em cada posição.
+ Uma otimização óbvia ainda seria gerar um array sem números repetidos,
+ de maneira decrescente, já que este seria o último número válido em uma
+ base.
+ Por exemplo, para base-6, o número 543210.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+maxnum(base):
+\end_layout
+
+\begin_layout Plain Layout
+
+	num = [] # array vazio
+\end_layout
+
+\begin_layout Plain Layout
+
+	para i de 0 a base:
+\end_layout
+
+\begin_layout Plain Layout
+
+		num.append(base - 1 - i)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	return num
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Aqui vemos o algoritmo já com a otimização supracitada.
+\end_layout
+
+\begin_layout Standard
+Ainda no algoritmo escadinha, vemos uma chamada para valido(num, base).
+ Vamos analizar esta chamada, pois nela se encontra o maior problema de
+ performance deste algorítmo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+valido(num):
+\end_layout
+
+\begin_layout Plain Layout
+
+	para i de 0 a len(num):
+\end_layout
+
+\begin_layout Plain Layout
+
+		se abs(num[i] - num[i - 1]) > 2: # Regra 3
+\end_layout
+
+\begin_layout Plain Layout
+
+			return False
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	return unique(num) # vamos ver este na seqüência
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ignorando unique(num), vemos que este algoritmo roda em tempo linear em
+ relação à quantidade de dígitos de num.
+ O problema mesmo, como veremos, está na verificação de unicidade dos dígitos
+ de um número.
+ Vejamos o algoritmo que faz isto:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+unique(num):
+\end_layout
+
+\begin_layout Plain Layout
+
+	para i de 0 a len(num):
+\end_layout
+
+\begin_layout Plain Layout
+
+		para j de 0 a len(num):
+\end_layout
+
+\begin_layout Plain Layout
+
+			se i == j:
+\end_layout
+
+\begin_layout Plain Layout
+
+				continue # não compara o dígito com ele mesmo
+\end_layout
+
+\begin_layout Plain Layout
+
+			se num[i] == num[j]:
+\end_layout
+
+\begin_layout Plain Layout
+
+				return False # se há dois dígitos iguais, retorna Falso
+\end_layout
+
+\begin_layout Plain Layout
+
+	return True # somente retorna true se verificou todo mundo contra todo
+ mundo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Claramente, este algoritmo roda em O(
+\begin_inset Formula $len(num)$
+\end_inset
+
+
+\begin_inset Formula $^{2}$
+\end_inset
+
+), pois para cada dígito de num, é necessário verificar sua igualdade contra
+ todos os demais dígitos.
+ Este é um candidato óbvio para otimização.
+ Seria ideal se, em uma tentativa futura, pudéssemos eliminar completamente
+ a chamada a este método, tendo a confiança de que só iremos visitar números
+ cujos dígitos são únicos entre si.
+\end_layout
+
+\begin_layout Standard
+De fato, vemos que o algoritmo escadinha, considerando tudo, tem uma complexidad
+e O(base
+\begin_inset Formula $^{3}$
+\end_inset
+
+)
+\end_layout
+
 \end_body
 \end_document
