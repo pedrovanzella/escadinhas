@@ -2,6 +2,14 @@
 import sys
 
 
+def maxnum(base):
+    maxnum = []
+    for i in range(0, base):
+        maxnum.append(base - i - 1)
+
+    return maxnum
+
+
 def escadinha(base):
     pass
 
