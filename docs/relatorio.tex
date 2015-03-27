@@ -75,43 +75,7 @@ que deve rodar em tempo constante. Isto é, para cada número a se incrementar,
 faz-se necessário verificar por overflow em cada dígito anterior,
 até que não haja mais dígitos em overflow, ou que se tenha chegado
 ao começo do array. Este algoritmo foi utilizado em soluções posteriores
-pela sua praticidade. Além disso, o seu custo cresce linearmente com
-a quantidade de dígitos do número, o que é um custo pequeno, como
-veremos posteriormente, se comparado ao crescimento muito maior do
-resto do algoritmo, que se dá em relação à base.
-
-\begin{lstlisting}
-incrementa(num, base):
-	max = True
-	para p em num: 
-		se p != base - 1:
-			max = False
-			break
-
-	se max:
-		num[0] = 1 
-		para i de 1 a len(num):
-			num[i] = 0
-		num.append(0)
-		return num
-
-	se num[-1] < base - 1:
-		num[-1]++
-	senão:
-		num[-1] = 0
-		para i de len(num) - 2 até 0:
-			se num[i] < base - 1: 
-				num[i]++
-				break
-			senão:
-				num[i] = 0
-
-	return num
-\end{lstlisting}
-
-
-O código acima mostra o algoritmo de incremento de um número, contando
-com os casos de borda onde haverá overflow de um dígito. 
+pela sua praticidade. 
 
 O algoritmo de procura por números válidos é o mais ingênuo possível:
 itera por todos os números possíveis na base e, um por um, verifica
@@ -131,24 +95,9 @@ escadinha(base):
 \end{lstlisting}
 
 
-No algorítmo acima, vemos um \textquotedbl{}maxnum\textquotedbl{}.
+No algorítmo acima, vemos um {\sf maxnum}.
 Ele pode ser facilmente computado gerando um array de base-posições
-com base-1 em cada posição. Uma otimização óbvia ainda seria gerar
-um array sem números repetidos, de maneira decrescente, já que este
-seria o último número válido em uma base. Por exemplo, para base-6,
-o número 543210.
-
-\begin{lstlisting}
-maxnum(base):
-	num = [] 
-	para i de 0 a base:
-		num.append(base - 1 - i)
-
-	return num
-\end{lstlisting}
-
-
-Aqui vemos o algoritmo já com a otimização supracitada.
+com {\sf base-1} em cada posição. 
 
 Ainda no algoritmo escadinha, vemos uma chamada para valido(num, base).
 Vamos analizar esta chamada, pois nela se encontra o maior problema
@@ -157,14 +106,14 @@ de performance deste algorítmo.
 \begin{lstlisting}
 valido(num):
 	para i de 0 a len(num):
-		se abs(num[i] - num[i - 1]) > 2: 
+		se abs(num[i] - num[i - 1]) > 2:
 			return False
 
-	return unique(num) 
+	return unique(num)
 \end{lstlisting}
 
 
-Ignorando unique(num), vemos que este algoritmo roda em tempo linear
+Ignorando {\sf unique(num)}, vemos que este algoritmo roda em tempo linear
 em relação à quantidade de dígitos de num. O problema mesmo, como
 veremos, está na verificação de unicidade dos dígitos de um número.
 Vejamos o algoritmo que faz isto:
@@ -181,15 +130,15 @@ unique(num):
 \end{lstlisting}
 
 
-Claramente, este algoritmo roda em O($len(num)^{2}$), pois para
-cada dígito de num, é necessário verificar sua igualdade contra todos
+Claramente, este algoritmo roda em O($base^{2}$), pois para
+cada dígito de {\sf num} (cujo tamanho é igual a {\sf base}), é necessário verificar sua igualdade contra todos
 os demais dígitos. Este é um candidato óbvio para otimização. Seria
 ideal se, em uma tentativa futura, pudéssemos eliminar completamente
 a chamada a este método, tendo a confiança de que só iremos visitar
-números cujos dígitos são únicos entre si.
+números cujos dígitos são únicos entre si. No entanto, veremos que apenas otimizar esta parte do algorítmo não reduz a ordem do problema.
 
 De fato, vemos que o algoritmo escadinha, considerando tudo, tem uma
-complexidade O($base^{3}$)
+complexidade O($base^{base}$).
 
 \subsection{Resultados}
 Obviamente o algoritmo é ruim. Mas quão ruim? Seria possível resolver o problema para uma entrada razoavel? A fim de curiosidade, o algoritmo foi implementado e os resultados foram os seguintes:
