@@ -77,6 +77,11 @@ até que não haja mais dígitos em overflow, ou que se tenha chegado
 ao começo do array. Este algoritmo foi utilizado em soluções posteriores
 pela sua praticidade. 
 
+\subsection{Algorítmos}\label{section:primeira:algoritmos}
+
+O algorítmo de busca por números escadinha faz algumas chamadas a outros algorítmos que valem a pena ser mencionados. Vejamos cada um deles.
+
+\subsubsection{Escadinha}\label{section:primeira:algoritmos:escadinha}
 O algoritmo de procura por números válidos é o mais ingênuo possível:
 itera por todos os números possíveis na base e, um por um, verifica
 se ele se adequa às regras.
@@ -97,9 +102,10 @@ escadinha(base):
 
 No algorítmo acima, vemos um {\sf maxnum}.
 Ele pode ser facilmente computado gerando um array de base-posições
-com {\sf base-1} em cada posição. 
+com $base-1$ em cada posição. 
 
-Ainda no algoritmo escadinha, vemos uma chamada para valido(num, base).
+\subsubsection{Checagem de Validade}\label{section:primeira:algoritmos:valido}
+Ainda no algoritmo escadinha, vemos uma chamada para {\sf valido(num, base)}.
 Vamos analizar esta chamada, pois nela se encontra o maior problema
 de performance deste algorítmo.
 
@@ -114,7 +120,7 @@ valido(num):
 
 
 Ignorando {\sf unique(num)}, vemos que este algoritmo roda em tempo linear
-em relação à quantidade de dígitos de num. O problema mesmo, como
+em relação à quantidade de dígitos de {\sf num}. O problema mesmo, como
 veremos, está na verificação de unicidade dos dígitos de um número.
 Vejamos o algoritmo que faz isto:
 
@@ -137,8 +143,10 @@ ideal se, em uma tentativa futura, pudéssemos eliminar completamente
 a chamada a este método, tendo a confiança de que só iremos visitar
 números cujos dígitos são únicos entre si. No entanto, veremos que apenas otimizar esta parte do algorítmo não reduz a ordem do problema.
 
+\subsubsection{Análise de Complexidade}\label{section:primeira:complexidade}
 De fato, vemos que o algoritmo escadinha, considerando tudo, tem uma
-complexidade $O(base^{base})$.
+complexidade $O(base^{base})$, pois o maior número a ser testado é um de {\sf base}-dígitos-{\sf base-1}, como, por exemplo, $44444$ para base-5.
+% TODO: uma explicação melhor %
 
 \subsection{Resultados}\label{section:primeira:resultados}
 Obviamente o algoritmo é ruim. Mas quão ruim? Seria possível resolver o problema para uma entrada razoavel? A fim de curiosidade, o algoritmo foi implementado e os resultados podem ser vistos na Tabela~\ref{table:resultados-1}.
@@ -166,7 +174,17 @@ Uma solução mais inteligente é necessária.
 
 \section{Segunda Tentativa}\label{section:segunda}
 
+Como vimos na Parte~\ref{section:primeira:complexidade}, o primeiro algorítmo cresce na ordem de $O(base^{base})$.
+
+Mas a Regra 2 nos diz que não podem haver dígitos repetidos, então este maior número já pode ser descartado. Até onde podemos descartar números, então? Simples: O primeiro dígito será o maior número da base. Os dígitos seguintes serão o dígito anterior, menos um. Este é, claramente, o maior número de uma base.
+
+Infelizmente, como podemos ver na Parte~\ref{section:segunda:resultados}, isto não altera a performance do algorítmo, mesmo reduzindo significativamente a quantidade de números a serem testados. A complexidade do algoritmo continua $O(base^{base})$.
+
 \subsection{Resultados}\label{section:segunda:resultados}
+
+Os resultados da Tabela~\ref{table:resultados-2} são essencialmente iguais aos da Tabela~\ref{table:resultados-1}. Isto é esperado, já que a complexidade do algorítmo não foi alterada.
+
+Precisamos de uma solução mais inteligente ainda.
 
 \begin{table}[h]
 \caption{Segunda Tentativa}
@@ -180,7 +198,8 @@ Uma solução mais inteligente é necessária.
   5 & 0.02 \\
   6 & 0.08 \\
   7 & 1.21 \\
-  8 & 23.9 % ISSO TA ERRADO ): %
+  8 & 23.9 \\
+  9 & 535.2
   \end{tabular}
   \end{table}
 
