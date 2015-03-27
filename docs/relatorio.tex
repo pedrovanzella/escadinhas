@@ -45,7 +45,7 @@ Propõe-se uma solução para o problema de se encontrar a quantidade de Números Es
 \end{resumo}
 
 
-\section{Introdução}
+\section{Introdução}\label{section:intro}
 
 São chamados Números Escadinha aqueles que seguem um conjunto simples
 de regras:
@@ -61,7 +61,7 @@ são finitos, devido à Regra 2 - o número de dígitos é limitado ao
 tamanho da base, senão dígitos começariam a se repetir.
 
 
-\section{Primeira Tentativa}
+\section{Primeira Tentativa}\label{section:primeira}
 
 Uma tentativa inicial foi feita, tentando o algorítmo mais óbvio e
 ingênuo.
@@ -130,7 +130,7 @@ unique(num):
 \end{lstlisting}
 
 
-Claramente, este algoritmo roda em O($base^{2}$), pois para
+Claramente, este algoritmo roda em $O(base^{2})$, pois para
 cada dígito de {\sf num} (cujo tamanho é igual a {\sf base}), é necessário verificar sua igualdade contra todos
 os demais dígitos. Este é um candidato óbvio para otimização. Seria
 ideal se, em uma tentativa futura, pudéssemos eliminar completamente
@@ -138,30 +138,50 @@ a chamada a este método, tendo a confiança de que só iremos visitar
 números cujos dígitos são únicos entre si. No entanto, veremos que apenas otimizar esta parte do algorítmo não reduz a ordem do problema.
 
 De fato, vemos que o algoritmo escadinha, considerando tudo, tem uma
-complexidade O($base^{base}$).
+complexidade $O(base^{base})$.
 
-\subsection{Resultados}
-Obviamente o algoritmo é ruim. Mas quão ruim? Seria possível resolver o problema para uma entrada razoavel? A fim de curiosidade, o algoritmo foi implementado e os resultados foram os seguintes:
+\subsection{Resultados}\label{section:primeira:resultados}
+Obviamente o algoritmo é ruim. Mas quão ruim? Seria possível resolver o problema para uma entrada razoavel? A fim de curiosidade, o algoritmo foi implementado e os resultados podem ser vistos na Tabela~\ref{table:resultados-1}.
 
 \begin{table}[h]
-\caption{Base vs Tempo (s)}
-\label{my-label}
+\caption{Primeira Tentativa}
+\label{table:resultados-1}
 \begin{tabular}{ll}
-2 & 0.01 \\
-3 & 0.01 \\
-4 & 0.01 \\
-5 & 0.02 \\
-6 & 0.09 \\
-7 & 1.25 \\
-8 & 23.9 \\
-9 & 540.9    
+  {\sf num} & Tempo (s) \\
+  \hline
+  2 & 0.01 \\
+  3 & 0.01 \\
+  4 & 0.01 \\
+  5 & 0.02 \\
+  6 & 0.09 \\
+  7 & 1.25 \\
+  8 & 23.9 \\
+  9 & 540.9    
 \end{tabular}
 \end{table}
 
 Para entradas menores a 4, a diferença de tempo de execução é imperceptível. Para entradas até 7, vemos um crescimento grande do tempo de execução, mas ainda nada terrível. Para 8, a diferença de tempo já é gritante. Em base-9, o tempo total de execução foi para quase 10 minutos. Esta diferença só aumenta, de maneira assustadora, a cada execução com base mais alta. Fica claro que para base-11 será impossível executar o algorítmo em tempo hábil.
 
-Fica claro que uma solução mais inteligente é necessária.
+Uma solução mais inteligente é necessária.
 
-\section{Segunda Tentativa}
+\section{Segunda Tentativa}\label{section:segunda}
+
+\subsection{Resultados}\label{section:segunda:resultados}
+
+\begin{table}[h]
+\caption{Segunda Tentativa}
+\label{table:resultados-2}
+\begin{tabular}{ll}
+  {\sf num} & Tempo (s) \\
+  \hline
+  2 & 0.01 \\
+  3 & 0.01 \\
+  4 & 0.01 \\
+  5 & 0.02 \\
+  6 & 0.08 \\
+  7 & 1.21 \\
+  8 & 23.9 % ISSO TA ERRADO ): %
+  \end{tabular}
+  \end{table}
 
 \end{document}
