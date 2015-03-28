@@ -3,15 +3,66 @@ import sys
 
 
 def maxnum(base):
-    maxnum = []
-    for i in range(0, base):
-        maxnum.append(base - i - 1)
+    return [base - i - 1 for i in range(0, base)]
 
-    return maxnum
+
+def maiorDisponivel(disponiveis):
+    for i in range(len(disponiveis) - 2, -1, -1):
+        if disponiveis[i]:
+            return i
+
+
+def zeros(base):
+    return [0 for x in range(0, base-1)]
 
 
 def escadinha(base):
-    pass
+    i = base - 1
+    count = 1
+    disponiveis = [False for x in range(0, base)]
+    num = maxnum(base)
+
+    print num
+    disponiveis[num[i]] = True
+
+    while num[i] == 0:
+        i -= 1
+        disponiveis[num[i]] = True
+    num[i] -= 1
+
+    while num != zeros(base):
+        print num
+        while not disponiveis[num[i]]:
+            print "While 1"
+            while num[i] == 0:
+                print "While 2"
+                i -= 1
+                disponiveis[num[i]] = True
+            num[i] -= 1
+        while abs(num[i] - num[i-1]) <= 2:
+            print "While 3"
+            disponiveis[num[i]] = False
+            if i == base - 1:
+                count += 1
+                disponiveis[num[i]] = True
+                while num[i] == 0:
+                    print "While 4"
+                    print "i = %d" % i
+                    print "num[%r] = %r" % (i, num[i])
+                    print "disp[%r] = %r" % (num[i], disponiveis[num[i]])
+                    x = raw_input()
+                    i -= 1
+                    disponiveis[num[i]] = True
+                num[i] -= 1
+            else:
+                print "Incrementando i"
+                i += 1
+                print "i = %d" % i
+                num[i] = maiorDisponivel(disponiveis)
+                print "disponiveis = %r" % disponiveis
+                print "Maior Disponível = %d" % num[i]
+
+    return count
 
 
 if __name__ == "__main__":
