@@ -54,13 +54,14 @@ def escadinha(base):
                     i -= 1
                     disponiveis[num[i]] = True
                 num[i] -= 1
+                break
             else:
                 print "Incrementando i"
                 i += 1
                 print "i = %d" % i
                 num[i] = maiorDisponivel(disponiveis)
                 print "disponiveis = %r" % disponiveis
-                print "Maior Disponível = %d" % num[i]
+                print "Maior Disponivel = %d" % num[i]
 
     return count
 
