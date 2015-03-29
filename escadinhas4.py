@@ -7,11 +7,12 @@ def esc(base, num, d, usad):
     if len(num) > base:
         return 1
     if num == [] or (abs(num[-1] - d) <= 2 and not usad[d]):
-        num.append(d)
         print num
+        num.append(d)
         usad[d] = True
+        count += 1
         for i in range(0, base):
-            count += 1 + esc(base, num, i, usad)
+            count += esc(base, num, i, usad)
     return count
 
 
