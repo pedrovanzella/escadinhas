@@ -52,15 +52,12 @@ def unique(num):
 
 
 def valido(num, base):
-    for idx, val in enumerate(num):
-        if val >= base:
-            # print "INVALIDO (base) %s" % num
-            return False
-        if abs(val - num[idx - 1]) > 2:
+    for i in range(1, len(num)):
+        if abs(num[i] - num[i - 1]) > 2:
             # print "INVALIDO (modulus 2) %s" % num
             return False
 
-        return unique(num)
+    return unique(num)
 
 
 def escadinha(base):
@@ -75,6 +72,7 @@ def escadinha(base):
         num = incrementa(num, base)
         # print "TESTANDO %d", num
         if valido(num, base):
+            print num
             count += 1
             # print "VALIDO %s" % num
 

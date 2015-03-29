@@ -4,19 +4,20 @@ import sys
 
 def esc(base, num, d, usad):
     count = 0
-    if num == [0] or len(num) > base:
-        return 0
-    if num == [] or abs(num[-1] - d) <= 2 and not usad[d]:
+    if len(num) > base:
+        return 1
+    if num == [] or (abs(num[-1] - d) <= 2 and not usad[d]):
         num.append(d)
+        print num
         usad[d] = True
-        for i in range(0, base - 1):
+        for i in range(0, base):
             count += 1 + esc(base, num, i, usad)
     return count
 
 
 def escadinha(base):
     count = 0
-    for i in range(1, base - 1):
+    for i in range(1, base):
         count += esc(base, [], i, [False for x in range(0, base)])
 
     return count
