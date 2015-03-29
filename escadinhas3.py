@@ -30,7 +30,7 @@ def escadinha(base):
         disponiveis[num[i]] = True
     num[i] -= 1
 
-    while num != zeros(base):
+    while b < base - 1:
         print num
         while not disponiveis[num[i]]:
             while num[i] == 0:
