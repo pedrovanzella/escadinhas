@@ -7,7 +7,7 @@ def maxnum(base):
 
 
 def maiorDisponivel(disponiveis):
-    for i in range(len(disponiveis) - 2, -1, -1):
+    for i in range(len(disponiveis) - 1, -1, -1):
         if disponiveis[i]:
             return i
 
@@ -18,14 +18,12 @@ def zeros(base):
 
 def escadinha(base):
     i = base - 1
+    b = 0
     count = 1
     disponiveis = [False for x in range(0, base)]
     num = maxnum(base)
 
-    print num
     disponiveis[num[i]] = True
-    print disponiveis
-    print i
 
     while num[i] == 0:
         i -= 1
@@ -35,55 +33,42 @@ def escadinha(base):
     while num != zeros(base):
         print num
         while not disponiveis[num[i]]:
-            print "While 1"
             while num[i] == 0:
-                print "While 2"
                 i -= 1
                 disponiveis[num[i]] = True
-                print "i = %r" % i
-                print "disponiveis = %r" % disponiveis
-                x = raw_input()
             num[i] -= 1
-            print "Fora do while 1:"
-            print "\tnum[%r] = %r" % (i, num[i])
-            x = raw_input()
-        while abs(num[i] - num[i-1]) <= 2:
-            print "While 3"
-            print "num[%r] - num[%r] = %r" % (i, i-1, num[i] - num[i-1])
+            if i == b and num[i] == 0:
+                b += 1
+                disponiveis[num[i]] = True
+                i += 1
+                num[i] = maiorDisponivel(disponiveis)
+        while i == b or abs(num[i] - num[i-1]) <= 2:
             disponiveis[num[i]] = False
-            print "disponiveis = %r" % disponiveis
             if i == base - 1:
                 count += 1
                 disponiveis[num[i]] = True
                 while num[i] == 0:
-                    print "While 4"
                     i -= 1
                     disponiveis[num[i]] = True
-                    print "i = %d" % i
-                    print "num[%r] = %r" % (i, num[i])
-                    print "disp[%r] = %r" % (num[i], disponiveis[num[i]])
-                    x = raw_input()
                 num[i] -= 1
+                if i == b and num[i] == 0:
+                    b += 1
+                    disponiveis[num[i]] = True
+                    i += 1
+                    num[i] = maiorDisponivel(disponiveis)
                 break
             else:
-                print "Incrementando i"
                 i += 1
-                print "i = %d" % i
                 num[i] = maiorDisponivel(disponiveis)
-                print "disponiveis = %r" % disponiveis
-                print "Maior Disponivel = %d" % num[i]
-            x = raw_input()
         while num[i] == 0:
-            print "While 5"
             i -= 1
             disponiveis[num[i]] = True
-            print "i = %d" % i
-            print "num[%r] = %r" % (i, num[i])
-            print "disp[%r] = %r" % (num[i], disponiveis[num[i]])
-            x = raw_input()
         num[i] -= 1
-        x = raw_input()
-
+        if i == b and num[i] == 0:
+            b += 1
+            disponiveis[num[i]] = True
+            i += 1
+            num[i] = maiorDisponivel(disponiveis)
     return count
 
 
