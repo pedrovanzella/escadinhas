@@ -8,7 +8,7 @@ def esc(base, num, d, usad, nivel):
         return 0
     if num == [] or (abs(num[-1] - d) <= 2 and not usad[d]):
         num.append(d)
-        print num
+        # print num
         usad[d] = True
         count += 1
         for i in range(0, base):

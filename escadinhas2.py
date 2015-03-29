@@ -72,7 +72,7 @@ def escadinha(base):
         num = incrementa(num, base)
         # print "TESTANDO %d", num
         if valido(num, base):
-            print num
+            #print num
             count += 1
             # print "VALIDO %s" % num
 
