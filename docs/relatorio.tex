@@ -174,17 +174,15 @@ Uma solução mais inteligente é necessária.
 
 \section{Segunda Tentativa}\label{section:segunda}
 
-Como vimos na Parte~\ref{section:primeira:complexidade}, o primeiro algorítmo cresce na ordem de $O(base^{base})$.
+Como vimos na Seção~\ref{section:primeira:complexidade}, o primeiro algorítmo cresce na ordem de $O(base^{base})$.
 
 Mas a Regra 2 nos diz que não podem haver dígitos repetidos, então este maior número já pode ser descartado. Até onde podemos descartar números, então? Simples: O primeiro dígito será o maior número da base. Os dígitos seguintes serão o dígito anterior, menos um. Este é, claramente, o maior número de uma base.
 
-Infelizmente, como podemos ver na Parte~\ref{section:segunda:resultados}, isto não altera a performance do algorítmo, mesmo reduzindo significativamente a quantidade de números a serem testados. A complexidade do algoritmo continua $O(base^{base})$.
+Infelizmente, como podemos ver na Seção~\ref{section:segunda:resultados}, isto não altera a performance do algorítmo, mesmo reduzindo significativamente a quantidade de números a serem testados. A complexidade do algoritmo continua $O(base^{base})$.
 
 \subsection{Resultados}\label{section:segunda:resultados}
 
 Os resultados da Tabela~\ref{table:resultados-2} são essencialmente iguais aos da Tabela~\ref{table:resultados-1}. Isto é esperado, já que a complexidade do algorítmo não foi alterada.
-
-Precisamos de uma solução mais inteligente ainda.
 
 \begin{table}[h]
 \caption{Segunda Tentativa}
@@ -202,5 +200,50 @@ Precisamos de uma solução mais inteligente ainda.
   9 & 535.2
   \end{tabular}
   \end{table}
+
+Precisamos de uma solução mais inteligente ainda.
+
+\section{Terceira Tentativa}\label{section:terceira}
+Vale a pena pararmos um pouco para analisar como os números são formados. A Seção~\ref{section:primeira} nos dá uma pista da maneira com que isto pode ocorrer. Podemos gerar outro número de uma base de duas maneiras: incrementando o último dígito, ou adicionando mais um dígito ao final do mesmo. Vamos analisar a segunda opção.
+
+Digamos que tenhamos um número inválido para o problema. Fica fácil de ver que não adianta testar nenhum número que comece com os mesmos dígitos que ele, pois todos serão inválidos, pelo mesmo motivo que o primeiro já era. Isso nos deixa somente com a tarefa de testar números que variem o último dígito em relação a ele.
+
+Pensando desta maneira, podemos ver o problema como uma árvore, onde cada galho é um dígito a mais sendo inserido ao final do número já existente. Assim que encontramos um galho que gera um número inválido para o problema, podemos desistir daquele ramo inteiro, pois todos os galhos derivados dele também serão inválidos.
+
+Isto é um algorítmo de {\em Branch and Bound}, e a melhor maneira de implementá-lo é recursivamente.
+
+\subsection{Algoritmo}\label{section:terceira:algoritmo}
+Veja que o algorítmo é bastante conciso:
+
+\begin{lstlisting}
+escadinha(base, num, d, usad):
+    count = 0
+    se len(num) >= base:
+        return 0
+    se num == [] ou (|num[-1] - d| <= 2 and not usad[d]):
+        num.append(d)
+        usad[d] = True
+        count += 1
+        para i de 0 a base - 1:
+            count += escadinha(base, num, i, usad)
+    return count
+\end{lstlisting}
+
+A chamada ao algorítmo deve ser algo como:
+\begin{lstlisting}
+count = 0
+para i de 1 a base - 1:
+    count += escadinha(base, [], i, [False for x de 0 a base-1], 0)
+\end{lstlisting}
+
+Algumas observações a respeito da notação são interessantes: {\sf []} representa um array vazio. {\sf num.append(d)} insere {\sf d} no final de {\sf num}.
+
+Há três pontos de retorno no algorítmo recursivo (que poderiam ser reduzidos para dois, mas foram deixados assim por simplicidade de leitura): Se estamos tentando inserir um dígito a mais que a base permite, retornamos zero. Se o dígito a ser inserido não satisfaz as condições do problema, também retornamos zero. Se o dígito satisfaz as condições do problema, retornamos $1$, mais a contagem de números válidos da subárvore deste dígito.
+
+O {\em array} de booleanos {\sf usad} é utilizado para evitar termos de pesquisar no número cada vez que quisermos saber se um dígito já foi utilizado neste número ou não. Uma pesquisa destas rodaria em $O(n)$, pois seria necessário percorrer o número, testando dígito a dígito. Em vez disso, cada vez que usamos um dígito, marcamos um booleano como verdadeiro no {\em array}. Deste modo, a verificação ocorre em $O(1)$, ao custo de um pouco de memória.
+
+\subsection{Análise de Complexidade}\label{section:terceira:complexidade}
+
+\subsection{Resultados}\label{section:terceira:resultados}
 
 \end{document}
