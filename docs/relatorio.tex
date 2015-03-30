@@ -42,7 +42,7 @@ Grande do Sul (PUCRS) \\ Av. Ipiranga, 6681 - Porto Alegre / RS / Brasil
 \maketitle
 \begin{abstract}
 A solution for the problem of finding the number of Stairway Numbers
-in a arbitrary base-n is proposed.
+in an arbitrary base-n is proposed.
 \end{abstract}
 \begin{resumo}
 Propõe-se uma solução para o problema de se encontrar a quantidade de Números Escadinha em uma base arbitrária n.
@@ -141,7 +141,7 @@ unique(num):
 
 
 Claramente, este algoritmo roda em $O(base^{2})$, pois para
-cada dígito de {\sf num} (cujo tamanho é igual a {\sf base}), é necessário verificar sua igualdade contra todos
+cada dígito de {\sf num}\footnote{Cujo tamanho é igual a {\sf base}}, é necessário verificar sua igualdade contra todos
 os demais dígitos. Este é um candidato óbvio para otimização. Seria
 ideal se, em uma tentativa futura, pudéssemos eliminar completamente
 a chamada a este método, tendo a confiança de que só iremos visitar
@@ -153,7 +153,7 @@ complexidade $O(base^{base})$, pois o maior número a ser testado é um de {\sf ba
 % TODO: uma explicação melhor %
 
 \subsection{Resultados}\label{section:primeira:resultados}
-Obviamente o algoritmo é ruim. Mas quão ruim? Seria possível resolver o problema para uma entrada razoavel? A fim de curiosidade, o algoritmo foi implementado e os resultados podem ser vistos na Tabela~\ref{table:resultados-1}.
+Obviamente o algoritmo é ruim. Mas quão ruim? Seria possível resolver o problema para uma entrada razoavel? A fim de curiosidade, o algorítmo foi implementado e os resultados podem ser vistos na Tabela~\ref{table:resultados-1}.
 
 \begin{table}[h]
 \caption{Primeira Tentativa}
@@ -242,13 +242,19 @@ para i de 1 a base - 1:
 
 Algumas observações a respeito da notação são interessantes: {\sf []} representa um array vazio. {\sf num.append(d)} insere {\sf d} no final de {\sf num}.
 
-Há três pontos de retorno no algorítmo recursivo (que poderiam ser reduzidos para dois, mas foram deixados assim por simplicidade de leitura): Se estamos tentando inserir um dígito a mais que a base permite, retornamos zero. Se o dígito a ser inserido não satisfaz as condições do problema, também retornamos zero. Se o dígito satisfaz as condições do problema, retornamos $1$, mais a contagem de números válidos da subárvore deste dígito.
+Há três pontos de retorno no algorítmo recursivo\footnote{Claramente, os pontos de retorno poderiam ser reduzidos para dois, mas foram deixados assim por simplicidade de leitura}: Se estamos tentando inserir um dígito a mais que a base permite, retornamos zero. Se o dígito a ser inserido não satisfaz as condições do problema, também retornamos zero. Se o dígito satisfaz as condições do problema, retornamos $1$, mais a contagem de números válidos da subárvore deste dígito.
 
-O {\em array} de booleanos {\sf usad} é utilizado para evitar termos de pesquisar no número cada vez que quisermos saber se um dígito já foi utilizado neste número ou não. Uma pesquisa destas rodaria em $O(n)$, pois seria necessário percorrer o número, testando dígito a dígito. Em vez disso, cada vez que usamos um dígito, marcamos um booleano como verdadeiro no {\em array}. Deste modo, a verificação ocorre em $O(1)$, ao custo de um pouco de memória.
+O {\em array} de booleanos {\sf usad} é utilizado para evitar termos de pesquisar no número cada vez que quisermos saber se um dígito já foi utilizado neste número ou não. Uma pesquisa destas rodaria em $O(n)$\footnote{Itera-se pelo número, dígito a dígito. Ao encontrar um número, retorna-se Falso. Somente temos certeza de um número estar disponível após percorrer todos os {\em n} dígitos do número.}, pois seria necessário percorrer o número, testando dígito a dígito. Em vez disso, cada vez que usamos um dígito, marcamos um booleano como verdadeiro no {\em array}. Deste modo, a verificação ocorre em $O(1)$, ao custo de um pouco de memória.
 
 \subsection{Análise de Complexidade}\label{section:terceira:complexidade}
 
+Analisar a complexidade de um algorítmo recursivo é um pouco mais complicado.
+
 \subsection{Resultados}\label{section:terceira:resultados}
+
+Como podemos ver na Tabela~\ref{table:resultados-3}, o algorítmo resolve o problema em um tempo muito curto. De fato, ele resolve para uma entrada de 14 em menos tempo que o algorítmo da Seção~\ref{section:segunda} resolve para uma entrada de 7.
+
+Mais importante que isto, o seu custo cresce de maneira muito menos agressiva do que o algorítmo anterior, sendo possível resolver para bases muito mais altas antes que a impaciência nos vença.
 
 \begin{table}[h]
 \caption{Terceira Tentativa}
