@@ -32,6 +32,10 @@ Grande do Sul (PUCRS) \\ Av. Ipiranga, 6681 - Porto Alegre / RS / Brasil
 
 \usepackage{babel}
 \usepackage{listings}
+\lstset {
+    mathescape,
+    frame=none
+}
 \renewcommand{\lstlistingname}{Listagem}
 
 \begin{document}
@@ -88,15 +92,15 @@ se ele se adequa às regras.
 
 \begin{lstlisting}
 escadinha(base):
-	count = 0
-	num = [0] 
+  count $\leftarrow$ 0
+  num $\leftarrow$ [0] 
 	
-	enquanto num != maxnum: 
-		num = incrementa(num, base) 
-		se valido(num):
-			count++
+  enquanto num $\neq$ maxnum: 
+    num $\leftarrow$ incrementa(num, base) 
+    se valido(num):
+      count++
 
-	return count
+  $\rightarrow$ count
 \end{lstlisting}
 
 
@@ -111,11 +115,11 @@ de performance deste algorítmo.
 
 \begin{lstlisting}
 valido(num):
-	para i de 0 a len(num):
-		se abs(num[i] - num[i - 1]) > 2:
-			return False
+  para i de 0 a len(num):
+    se $|num[i] - num[i - 1]| > 2$:
+      $\rightarrow$ False
 
-	return unique(num)
+  $\rightarrow$ unique(num)
 \end{lstlisting}
 
 
@@ -126,13 +130,13 @@ Vejamos o algoritmo que faz isto:
 
 \begin{lstlisting}
 unique(num):
-	para i de 0 a len(num):
-		para j de 0 a len(num):
-			se i == j:
-				continue 
-			se num[i] == num[j]:
-				return False 
-	return True 
+  para i de 0 a len(num):
+    para j de 0 a len(num):
+      se i $=$ j:
+        continue 
+      se num[i] $=$ num[j]:
+        $\rightarrow$ False 
+  $\rightarrow$ True 
 \end{lstlisting}
 
 
@@ -217,23 +221,23 @@ Veja que o algorítmo é bastante conciso:
 
 \begin{lstlisting}
 escadinha(base, num, d, usad):
-    count = 0
-    se len(num) >= base:
-        return 0
-    se num == [] ou (|num[-1] - d| <= 2 and not usad[d]):
-        num.append(d)
-        usad[d] = True
-        count += 1
-        para i de 0 a base - 1:
-            count += escadinha(base, num, i, usad)
-    return count
+  count $\leftarrow$ 0
+  se len(num) $\geq$ base:
+    return 0
+  se num $=$ [] ou ($|num[-1] - d| \leq 2$ and not usad[d]):
+    num.append(d)
+    usad[d] = True
+    count += 1
+    para i de 0 a base - 1:
+      count += escadinha(base, num, i, usad)
+  return count
 \end{lstlisting}
 
 A chamada ao algorítmo deve ser algo como:
 \begin{lstlisting}
-count = 0
+count $\leftarrow$ 0
 para i de 1 a base - 1:
-    count += escadinha(base, [], i, [False for x de 0 a base-1], 0)
+  count += escadinha(base, [], i, [False for x de 0 a base-1], 0)
 \end{lstlisting}
 
 Algumas observações a respeito da notação são interessantes: {\sf []} representa um array vazio. {\sf num.append(d)} insere {\sf d} no final de {\sf num}.
