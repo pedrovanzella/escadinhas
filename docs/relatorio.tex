@@ -20,11 +20,11 @@
 
 \sloppy
 
-\title{Números Escadinha}
+\title{NÃºmeros Escadinha}
 
 \author{Pedro Vanzella\inst{1}}
 
-\address{Faculdade de Informática -- Pontifícia Universidade Católica do Rio
+\address{Faculdade de InformÃ¡tica -- PontifÃ­cia Universidade CatÃ³lica do Rio
 Grande do Sul (PUCRS) \\ Av. Ipiranga, 6681 - Porto Alegre / RS / Brasil
     \email pedro@pedrovanzella.com}
 
@@ -39,56 +39,57 @@ Grande do Sul (PUCRS) \\ Av. Ipiranga, 6681 - Porto Alegre / RS / Brasil
 \renewcommand{\lstlistingname}{Listagem}
 
 \begin{document}
+
 \maketitle
 \begin{abstract}
 A solution for the problem of finding the number of Stairway Numbers
 in an arbitrary base-n is proposed.
 \end{abstract}
 \begin{resumo}
-Propõe-se uma solução para o problema de se encontrar a quantidade de Números Escadinha em uma base arbitrária n.
+PropÃµe-se uma soluÃ§Ã£o para o problema de se encontrar a quantidade de NÃºmeros Escadinha em uma base arbitrÃ¡ria n.
 \end{resumo}
 
 
-\section{Introdução}\label{section:intro}
+\section{IntroduÃ§Ã£o}\label{section:intro}
 
-São chamados Números Escadinha aqueles que seguem um conjunto simples
+SÃ£o chamados NÃºmeros Escadinha aqueles que seguem um conjunto simples
 de regras:
 \begin{lyxlist}{00.00.0000}
-\item [{1.}] Não começam com o dígito zero
-\item [{2.}] Não possuem dígitos repetidos
-\item [{3.}] Entre um dígito e o seguinte, a diferença em módulo não é
+\item [{1.}] NÃ£o comeÃ§am com o dÃ­gito zero
+\item [{2.}] NÃ£o possuem dÃ­gitos repetidos
+\item [{3.}] Entre um dÃ­gito e o seguinte, a diferenÃ§a em mÃ³dulo nÃ£o Ã©
 superior a 2.
 \end{lyxlist}
-O problema a ser resolvido neste artigo é o de se encontrar quantos
-Números Escadinha existem em uma dada base. Fica evidente que eles
-são finitos, devido à Regra 2 - o número de dígitos é limitado ao
-tamanho da base, senão dígitos começariam a se repetir.
+O problema a ser resolvido neste artigo Ã© o de se encontrar quantos
+NÃºmeros Escadinha existem em uma dada base. Fica evidente que eles
+sÃ£o finitos, devido Ã  Regra 2 - o nÃºmero de dÃ­gitos Ã© limitado ao
+tamanho da base, senÃ£o dÃ­gitos comeÃ§ariam a se repetir.
 
 
 \section{Primeira Tentativa}\label{section:primeira}
 
-Uma tentativa inicial foi feita, tentando o algorítmo mais óbvio e
-ingênuo.
+Uma tentativa inicial foi feita, tentando o algorÃ­tmo mais Ã³bvio e
+ingÃªnuo.
 
-Para evitar conversões de base, foi usado um array de inteiros, onde
-cada elemento do array representa um dígito do número. O problema
-desta parte da solução é que incrementar um dígito roda, na pior das
-hipóteses, em tempo linear, oposto a incrementar um inteiro simples,
-que deve rodar em tempo constante. Isto é, para cada número a se incrementar,
-é necessário verificar o overflow no último dígito. Caso isto ocorra,
-faz-se necessário verificar por overflow em cada dígito anterior,
-até que não haja mais dígitos em overflow, ou que se tenha chegado
-ao começo do array. Este algoritmo foi utilizado em soluções posteriores
+Para evitar conversÃµes de base, foi usado um array de inteiros, onde
+cada elemento do array representa um dÃ­gito do nÃºmero. O problema
+desta parte da soluÃ§Ã£o Ã© que incrementar um dÃ­gito roda, na pior das
+hipÃ³teses, em tempo linear, oposto a incrementar um inteiro simples,
+que deve rodar em tempo constante. Isto Ã©, para cada nÃºmero a se incrementar,
+Ã© necessÃ¡rio verificar o overflow no Ãºltimo dÃ­gito. Caso isto ocorra,
+faz-se necessÃ¡rio verificar por overflow em cada dÃ­gito anterior,
+atÃ© que nÃ£o haja mais dÃ­gitos em overflow, ou que se tenha chegado
+ao comeÃ§o do array. Este algoritmo foi utilizado em soluÃ§Ãµes posteriores
 pela sua praticidade. 
 
-\subsection{Algorítmos}\label{section:primeira:algoritmos}
+\subsection{AlgorÃ­tmos}\label{section:primeira:algoritmos}
 
-O algorítmo de busca por números escadinha faz algumas chamadas a outros algorítmos que valem a pena ser mencionados. Vejamos cada um deles.
+O algorÃ­tmo de busca por nÃºmeros escadinha faz algumas chamadas a outros algorÃ­tmos que valem a pena ser mencionados. Vejamos cada um deles.
 
 \subsubsection{Escadinha}\label{section:primeira:algoritmos:escadinha}
-O algoritmo de procura por números válidos é o mais ingênuo possível:
-itera por todos os números possíveis na base e, um por um, verifica
-se ele se adequa às regras.
+O algoritmo de procura por nÃºmeros vÃ¡lidos Ã© o mais ingÃªnuo possÃ­vel:
+itera por todos os nÃºmeros possÃ­veis na base e, um por um, verifica
+se ele se adequa Ã s regras.
 
 \begin{lstlisting}
 escadinha(base):
@@ -104,14 +105,14 @@ escadinha(base):
 \end{lstlisting}
 
 
-No algorítmo acima, vemos um {\sf maxnum}.
-Ele pode ser facilmente computado gerando um array de base-posições
-com $base-1$ em cada posição. 
+No algorÃ­tmo acima, vemos um {\sf maxnum}.
+Ele pode ser facilmente computado gerando um array de base-posiÃ§Ãµes
+com $base-1$ em cada posiÃ§Ã£o. 
 
 \subsubsection{Checagem de Validade}\label{section:primeira:algoritmos:valido}
 Ainda no algoritmo escadinha, vemos uma chamada para {\sf valido(num, base)}.
 Vamos analizar esta chamada, pois nela se encontra o maior problema
-de performance deste algorítmo.
+de performance deste algorÃ­tmo.
 
 \begin{lstlisting}
 valido(num):
@@ -124,8 +125,8 @@ valido(num):
 
 
 Ignorando {\sf unique(num)}, vemos que este algoritmo roda em tempo linear
-em relação à quantidade de dígitos de {\sf num}. O problema mesmo, como
-veremos, está na verificação de unicidade dos dígitos de um número.
+em relaÃ§Ã£o Ã  quantidade de dÃ­gitos de {\sf num}. O problema mesmo, como
+veremos, estÃ¡ na verificaÃ§Ã£o de unicidade dos dÃ­gitos de um nÃºmero.
 Vejamos o algoritmo que faz isto:
 
 \begin{lstlisting}
@@ -141,19 +142,19 @@ unique(num):
 
 
 Claramente, este algoritmo roda em $O(base^{2})$, pois para
-cada dígito de {\sf num}\footnote{Cujo tamanho é igual a {\sf base}}, é necessário verificar sua igualdade contra todos
-os demais dígitos. Este é um candidato óbvio para otimização. Seria
-ideal se, em uma tentativa futura, pudéssemos eliminar completamente
-a chamada a este método, tendo a confiança de que só iremos visitar
-números cujos dígitos são únicos entre si. No entanto, veremos que apenas otimizar esta parte do algorítmo não reduz a ordem do problema.
+cada dÃ­gito de {\sf num}\footnote{Cujo tamanho Ã© igual a {\sf base}}, Ã© necessÃ¡rio verificar sua igualdade contra todos
+os demais dÃ­gitos. Este Ã© um candidato Ã³bvio para otimizaÃ§Ã£o. Seria
+ideal se, em uma tentativa futura, pudÃ©ssemos eliminar completamente
+a chamada a este mÃ©todo, tendo a confianÃ§a de que sÃ³ iremos visitar
+nÃºmeros cujos dÃ­gitos sÃ£o Ãºnicos entre si. No entanto, veremos que apenas otimizar esta parte do algorÃ­tmo nÃ£o reduz a ordem do problema.
 
-\subsubsection{Análise de Complexidade}\label{section:primeira:complexidade}
+\subsubsection{AnÃ¡lise de Complexidade}\label{section:primeira:complexidade}
 De fato, vemos que o algoritmo escadinha, considerando tudo, tem uma
-complexidade $O(base^{base})$, pois o maior número a ser testado é um de {\sf base}-dígitos-{\sf base-1}, como, por exemplo, $44444$ para base-5.
-% TODO: uma explicação melhor %
+complexidade $O(base^{base})$, pois o maior nÃºmero a ser testado Ã© um de {\sf base}-dÃ­gitos-{\sf base-1}, como, por exemplo, $44444$ para base-5.
+% TODO: uma explicaÃ§Ã£o melhor %
 
 \subsection{Resultados}\label{section:primeira:resultados}
-Obviamente o algoritmo é ruim. Mas quão ruim? Seria possível resolver o problema para uma entrada razoavel? A fim de curiosidade, o algorítmo foi implementado e os resultados podem ser vistos na Tabela~\ref{table:resultados-1}.
+Obviamente o algoritmo Ã© ruim. Mas quÃ£o ruim? Seria possÃ­vel resolver o problema para uma entrada razoavel? A fim de curiosidade, o algorÃ­tmo foi implementado e os resultados podem ser vistos na Tabela~\ref{table:resultados-1}.
 
 \begin{table}[h]
 \caption{Primeira Tentativa}
@@ -172,21 +173,21 @@ Obviamente o algoritmo é ruim. Mas quão ruim? Seria possível resolver o problema
 \end{tabular}
 \end{table}
 
-Para entradas menores a 4, a diferença de tempo de execução é imperceptível. Para entradas até 7, vemos um crescimento grande do tempo de execução, mas ainda nada terrível. Para 8, a diferença de tempo já é gritante. Em base-9, o tempo total de execução foi para quase 10 minutos. Esta diferença só aumenta, de maneira assustadora, a cada execução com base mais alta. Fica claro que para base-11 será impossível executar o algorítmo em tempo hábil.
+Para entradas menores a 4, a diferenÃ§a de tempo de execuÃ§Ã£o Ã© imperceptÃ­vel. Para entradas atÃ© 7, vemos um crescimento grande do tempo de execuÃ§Ã£o, mas ainda nada terrÃ­vel. Para 8, a diferenÃ§a de tempo jÃ¡ Ã© gritante. Em base-9, o tempo total de execuÃ§Ã£o foi para quase 10 minutos. Esta diferenÃ§a sÃ³ aumenta, de maneira assustadora, a cada execuÃ§Ã£o com base mais alta. Fica claro que para base-11 serÃ¡ impossÃ­vel executar o algorÃ­tmo em tempo hÃ¡bil.
 
-Uma solução mais inteligente é necessária.
+Uma soluÃ§Ã£o mais inteligente Ã© necessÃ¡ria.
 
 \section{Segunda Tentativa}\label{section:segunda}
 
-Como vimos na Seção~\ref{section:primeira:complexidade}, o primeiro algorítmo cresce na ordem de $O(base^{base})$.
+Como vimos na SeÃ§Ã£o~\ref{section:primeira:complexidade}, o primeiro algorÃ­tmo cresce na ordem de $O(base^{base})$.
 
-Mas a Regra 2 nos diz que não podem haver dígitos repetidos, então este maior número já pode ser descartado. Até onde podemos descartar números, então? Simples: O primeiro dígito será o maior número da base. Os dígitos seguintes serão o dígito anterior, menos um. Este é, claramente, o maior número de uma base.
+Mas a Regra 2 nos diz que nÃ£o podem haver dÃ­gitos repetidos, entÃ£o este maior nÃºmero jÃ¡ pode ser descartado. AtÃ© onde podemos descartar nÃºmeros, entÃ£o? Simples: O primeiro dÃ­gito serÃ¡ o maior nÃºmero da base. Os dÃ­gitos seguintes serÃ£o o dÃ­gito anterior, menos um. Este Ã©, claramente, o maior nÃºmero de uma base.
 
-Infelizmente, como podemos ver na Seção~\ref{section:segunda:resultados}, isto não altera a performance do algorítmo, mesmo reduzindo significativamente a quantidade de números a serem testados. A complexidade do algoritmo continua $O(base^{base})$.
+Infelizmente, como podemos ver na SeÃ§Ã£o~\ref{section:segunda:resultados}, isto nÃ£o altera a performance do algorÃ­tmo, mesmo reduzindo significativamente a quantidade de nÃºmeros a serem testados. A complexidade do algoritmo continua $O(base^{base})$.
 
 \subsection{Resultados}\label{section:segunda:resultados}
 
-Os resultados da Tabela~\ref{table:resultados-2} são essencialmente iguais aos da Tabela~\ref{table:resultados-1}. Isto é esperado, já que a complexidade do algorítmo não foi alterada.
+Os resultados da Tabela~\ref{table:resultados-2} sÃ£o essencialmente iguais aos da Tabela~\ref{table:resultados-1}. Isto Ã© esperado, jÃ¡ que a complexidade do algorÃ­tmo nÃ£o foi alterada.
 
 \begin{table}[h]
 \caption{Segunda Tentativa}
@@ -205,19 +206,19 @@ Os resultados da Tabela~\ref{table:resultados-2} são essencialmente iguais aos d
   \end{tabular}
   \end{table}
 
-Precisamos de uma solução mais inteligente ainda.
+Precisamos de uma soluÃ§Ã£o mais inteligente ainda.
 
 \section{Terceira Tentativa}\label{section:terceira}
-Vale a pena pararmos um pouco para analisar como os números são formados. A Seção~\ref{section:primeira} nos dá uma pista da maneira com que isto pode ocorrer. Podemos gerar outro número de uma base de duas maneiras: incrementando o último dígito, ou adicionando mais um dígito ao final do mesmo. Vamos analisar a segunda opção.
+Vale a pena pararmos um pouco para analisar como os nÃºmeros sÃ£o formados. A SeÃ§Ã£o~\ref{section:primeira} nos dÃ¡ uma pista da maneira com que isto pode ocorrer. Podemos gerar outro nÃºmero de uma base de duas maneiras: incrementando o Ãºltimo dÃ­gito, ou adicionando mais um dÃ­gito ao final do mesmo. Vamos analisar a segunda opÃ§Ã£o.
 
-Digamos que tenhamos um número inválido para o problema. Fica fácil de ver que não adianta testar nenhum número que comece com os mesmos dígitos que ele, pois todos serão inválidos, pelo mesmo motivo que o primeiro já era. Isso nos deixa somente com a tarefa de testar números que variem o último dígito em relação a ele.
+Digamos que tenhamos um nÃºmero invÃ¡lido para o problema. Fica fÃ¡cil de ver que nÃ£o adianta testar nenhum nÃºmero que comece com os mesmos dÃ­gitos que ele, pois todos serÃ£o invÃ¡lidos, pelo mesmo motivo que o primeiro jÃ¡ era. Isso nos deixa somente com a tarefa de testar nÃºmeros que variem o Ãºltimo dÃ­gito em relaÃ§Ã£o a ele.
 
-Pensando desta maneira, podemos ver o problema como uma árvore, onde cada galho é um dígito a mais sendo inserido ao final do número já existente. Assim que encontramos um galho que gera um número inválido para o problema, podemos desistir daquele ramo inteiro, pois todos os galhos derivados dele também serão inválidos.
+Pensando desta maneira, podemos ver o problema como uma Ã¡rvore, onde cada galho Ã© um dÃ­gito a mais sendo inserido ao final do nÃºmero jÃ¡ existente. Assim que encontramos um galho que gera um nÃºmero invÃ¡lido para o problema, podemos desistir daquele ramo inteiro, pois todos os galhos derivados dele tambÃ©m serÃ£o invÃ¡lidos.
 
-Isto é um algorítmo de {\em Branch and Bound}, e a melhor maneira de implementá-lo é recursivamente.
+Isto Ã© um algorÃ­tmo de {\em Branch and Bound}, e a melhor maneira de implementÃ¡-lo Ã© recursivamente.
 
 \subsection{Algoritmo}\label{section:terceira:algoritmo}
-Veja que o algorítmo é bastante conciso:
+Veja que o algorÃ­tmo Ã© bastante conciso:
 
 \begin{lstlisting}
 escadinha(base, num, d, usad):
@@ -233,28 +234,32 @@ escadinha(base, num, d, usad):
   return count
 \end{lstlisting}
 
-A chamada ao algorítmo deve ser algo como:
+A chamada ao algorÃ­tmo deve ser algo como:
 \begin{lstlisting}
 count $\leftarrow$ 0
 para i de 1 a base - 1:
   count += escadinha(base, [], i, [False for x de 0 a base-1], 0)
 \end{lstlisting}
 
-Algumas observações a respeito da notação são interessantes: {\sf []} representa um array vazio. {\sf num.append(d)} insere {\sf d} no final de {\sf num}.
+Algumas observaÃ§Ãµes a respeito da notaÃ§Ã£o sÃ£o interessantes: {\sf []} representa um array vazio. {\sf num.append(d)} insere {\sf d} no final de {\sf num}.
 
-Há três pontos de retorno no algorítmo recursivo\footnote{Claramente, os pontos de retorno poderiam ser reduzidos para dois, mas foram deixados assim por simplicidade de leitura}: Se estamos tentando inserir um dígito a mais que a base permite, retornamos zero. Se o dígito a ser inserido não satisfaz as condições do problema, também retornamos zero. Se o dígito satisfaz as condições do problema, retornamos $1$, mais a contagem de números válidos da subárvore deste dígito.
+HÃ¡ trÃªs pontos de retorno no algorÃ­tmo recursivo\footnote{Claramente, os pontos de retorno poderiam ser reduzidos para dois, mas foram deixados assim por simplicidade de leitura}: Se estamos tentando inserir um dÃ­gito a mais que a base permite, retornamos zero. Se o dÃ­gito a ser inserido nÃ£o satisfaz as condiÃ§Ãµes do problema, tambÃ©m retornamos zero. Se o dÃ­gito satisfaz as condiÃ§Ãµes do problema, retornamos $1$, mais a contagem de nÃºmeros vÃ¡lidos da subÃ¡rvore deste dÃ­gito.
 
-O {\em array} de booleanos {\sf usad} é utilizado para evitar termos de pesquisar no número cada vez que quisermos saber se um dígito já foi utilizado neste número ou não. Uma pesquisa destas rodaria em $O(n)$\footnote{Itera-se pelo número, dígito a dígito. Ao encontrar um número, retorna-se Falso. Somente temos certeza de um número estar disponível após percorrer todos os {\em n} dígitos do número.}, pois seria necessário percorrer o número, testando dígito a dígito. Em vez disso, cada vez que usamos um dígito, marcamos um booleano como verdadeiro no {\em array}. Deste modo, a verificação ocorre em $O(1)$, ao custo de um pouco de memória.
+O {\em array} de booleanos {\sf usad} Ã© utilizado para evitar termos de pesquisar no nÃºmero cada vez que quisermos saber se um dÃ­gito jÃ¡ foi utilizado neste nÃºmero ou nÃ£o. Uma pesquisa destas rodaria em $O(n)$\footnote{Itera-se pelo nÃºmero, dÃ­gito a dÃ­gito. Ao encontrar um nÃºmero, retorna-se Falso. Somente temos certeza de um nÃºmero estar disponÃ­vel apÃ³s percorrer todos os {\em n} dÃ­gitos do nÃºmero.}, pois seria necessÃ¡rio percorrer o nÃºmero, testando dÃ­gito a dÃ­gito. Em vez disso, cada vez que usamos um dÃ­gito, marcamos um booleano como verdadeiro no {\em array}. Deste modo, a verificaÃ§Ã£o ocorre em $O(1)$, ao custo de um pouco de memÃ³ria.
 
-\subsection{Análise de Complexidade}\label{section:terceira:complexidade}
+\subsection{AnÃ¡lise de Complexidade}\label{section:terceira:complexidade}
 
-Analisar a complexidade de um algorítmo recursivo é um pouco mais complicado.
+Analisar a complexidade de um algorÃ­tmo recursivo Ã© um pouco mais complicado. Podemos ver, de maneira empÃ­rica, pela Tabela~\ref{table:resultados-3}, que o algorÃ­tmo Ã© muito melhor que o apresentado na SeÃ§Ã£o~\ref{section:segunda} e na SeÃ§Ã£o~\ref{section:primeira}. Isto jÃ¡ Ã© um bom sinal, ainda que nÃ£o prove nada, formalmente.
+
+Se virmos a execuÃ§Ã£o do algorÃ­tmo como uma Ã¡rvore\footnote{O que Ã© uma representaÃ§Ã£o bem realista}, podemos contar quantas execuÃ§Ãµes seriam feitas, caso todos os nÃºmeros fossem vÃ¡lidos. Este Ã© a quantidade de nÃºmeros possÃ­veis de serem gerados por uma base, e isto Ã© trivial de ser calculado: $base^{base}$. A complexidade deste algorÃ­tmo deve ser, portanto, $O(base^{base})$. Ora, mas esta Ã© a mesma complexidade dos algorÃ­tmos apresentados nas SeÃ§Ãµes~\ref{section:primeira} e~\ref{section:segunda}!
+
+De fato, se visitÃ¡ssemos todos os nÃºmeros possÃ­veis, seria esta a complexidade. No entanto, assim que encontramos um nÃºmero impossÃ­vel de acordo com as regras, desistimos de toda a sub-Ã¡rvore. No fim das contas, isto nos poupa um esforÃ§o enorme, reduzindo enormemente o custo prÃ¡tico do algorÃ­tmo.
 
 \subsection{Resultados}\label{section:terceira:resultados}
 
-Como podemos ver na Tabela~\ref{table:resultados-3}, o algorítmo resolve o problema em um tempo muito curto. De fato, ele resolve para uma entrada de 14 em menos tempo que o algorítmo da Seção~\ref{section:segunda} resolve para uma entrada de 7.
+Como podemos ver na Tabela~\ref{table:resultados-3}, o algorÃ­tmo resolve o problema em um tempo muito curto. De fato, ele resolve para uma entrada de 14 em menos tempo que o algorÃ­tmo da SeÃ§Ã£o~\ref{section:segunda} resolve para uma entrada de 7.
 
-Mais importante que isto, o seu custo cresce de maneira muito menos agressiva do que o algorítmo anterior, sendo possível resolver para bases muito mais altas antes que a impaciência nos vença.
+Mais importante que isto, o seu custo cresce de maneira muito menos agressiva do que o algorÃ­tmo anterior, sendo possÃ­vel resolver para bases muito mais altas antes que a impaciÃªncia nos venÃ§a.
 
 \begin{table}[h]
 \caption{Terceira Tentativa}
@@ -282,9 +287,9 @@ Mais importante que isto, o seu custo cresce de maneira muito menos agressiva do
   \end{tabular}
   \end{table}
   
-Este algorítmo é tão mais rápido que foi necessário rodá-lo com entradas superiores à proposta para termos uma idéia empírica de como seu custo cresce de acordo com a entrada.
+Este algorÃ­tmo Ã© tÃ£o mais rÃ¡pido que foi necessÃ¡rio rodÃ¡-lo com entradas superiores Ã  proposta para termos uma idÃ©ia empÃ­rica de como seu custo cresce de acordo com a entrada.
 
-Por sinal, a resposta para base 11 é $5748$ números.
+Por sinal, a resposta para base 11 Ã© $5748$ nÃºmeros.
 
 
 \end{document}
